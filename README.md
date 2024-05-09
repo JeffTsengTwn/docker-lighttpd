@@ -13,3 +13,4 @@ docker run -d -p 8080:8080 lighttpd-ssl
 ```bash
 docker run -d -p 443:443 lighttpd-ssl
 ```
+4. And you can change ssl/server.pem  which owned by your. 
