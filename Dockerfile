@@ -11,17 +11,18 @@ RUN apt-get install libpcre2-dev -y
 RUN apt-get install zlib1g-dev -y
 RUN apt-get install libssl-dev -y
 RUN apt-get install build-essential -y
-RUN git clone https://github.com/lighttpd/lighttpd1.4.git
-RUN cd lighttpd1.4
-RUN git pull
-RUN ./autogen.sh
-RUN ./configure -C --prefix=/usr/local --with-openssl
-RUN make -j 32
-RUN make install
-RUN mkdir /etc/lighttpd
-RUN mkdir /etc/lighttpd/ssl
-RUN mkdir /var/www
-RUN mkdir /var/www/public
+RUN git clone https://github.com/lighttpd/lighttpd1.4.git \
+&& cd lighttpd1.4 \
+&& git pull \
+&& ./autogen.sh \
+&& ./configure -C --prefix=/usr/local --with-openssl \
+&& make -j 32 \
+&& make install \
+&& mkdir /etc/lighttpd \
+&& mkdir /etc/lighttpd/ssl \
+&& mkdir /var/www \
+&& mkdir /var/www/public
 COPY conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY ssl/server.pem /etc/lighttpd/ssl/server.pem
-CMD ["/usr/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
+COPY public/index.html /var/www/public/index.html 
+CMD ["/usr/local/sbin/lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
