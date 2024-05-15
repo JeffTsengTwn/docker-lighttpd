@@ -11,11 +11,13 @@ RUN apt-get install libpcre2-dev -y
 RUN apt-get install zlib1g-dev -y
 RUN apt-get install libssl-dev -y
 RUN apt-get install build-essential -y
-RUN git clone https://github.com/lighttpd/lighttpd1.4.git \
-&& cd lighttpd1.4 \
-&& git pull \
+RUN apt-get install wget -y
+RUN apt-get install libbz2-dev -y
+RUN wget https://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.76.tar.gz
+RUN tar -xvzf lighttpd-1.4.76.tar.gz \
+&& cd  lighttpd-1.4.76 \
 && ./autogen.sh \
-&& ./configure -C --prefix=/usr/local --with-openssl \
+&& ./configure -C --prefix=/usr/local --with-openssl --without-pcre \
 && make -j 32 \
 && make install \
 && mkdir /etc/lighttpd \
